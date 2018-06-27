@@ -29,7 +29,7 @@ RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_
 USER root
 
 RUN conda install git pip nodejs -y
-ENV last-update "2018-05-24 15:51"
+ENV last-update "2018-06-27 15:21 PT"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ## install and activate the server extension
