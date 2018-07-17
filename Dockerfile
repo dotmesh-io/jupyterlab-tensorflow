@@ -21,15 +21,15 @@ RUN jupyter notebook --generate-config --allow-root && \
 RUN echo "c.NotebookApp.ip = '*'" >>${CONFIG} && \
     echo "c.NotebookApp.open_browser = False" >>${CONFIG} && \
     echo "c.NotebookApp.iopub_data_rate_limit=10000000000" >>${CONFIG} && \
-    echo "c.MultiKernelManager.default_kernel_name = 'python3'" >>${CONFIG} 
+    echo "c.MultiKernelManager.default_kernel_name = 'python3'" >>${CONFIG}
 
-RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON} 
+RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
 
 # ==== OUR STUFF FOLLOWS ====
 USER root
 
 RUN conda install git pip nodejs -y
-ENV last-update "2018-05-24 15:51"
+ENV last-update "2018-07-17 13:36"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ## install and activate the server extension
