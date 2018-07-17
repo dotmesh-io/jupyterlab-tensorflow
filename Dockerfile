@@ -1,5 +1,5 @@
 # # TensorFlow & scikit-learn with Python3
-FROM jupyter/tensorflow-notebook:702d2f6a3eaa
+FROM jupyter/tensorflow-notebook:4ebeb1f2d154
 
 # Install JupyterLab
 RUN pip install jupyterlab
