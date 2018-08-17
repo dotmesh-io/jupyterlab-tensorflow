@@ -90,5 +90,5 @@ class DotmeshAPIProxy(APIHandler):
                 cluster_url=CLUSTER_URL,
                 username="admin",
                 api_key=os.environ.get("DOTMESH_API_KEY", "password"),
-            ).getDot("dotscience-project").getBranch("master").log())
+            ).getDot(os.environ.get("DOTSCIENCE_PROJECT_DOT", "dotscience-project")).getBranch("master").log())
         )
