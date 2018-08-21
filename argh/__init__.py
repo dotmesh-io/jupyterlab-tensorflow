@@ -13,6 +13,10 @@ from notebook.base.handlers import APIHandler
 # TODO pip3 install datadots-api==0.1.2
 from dotmesh.client import DotmeshClient
 
+import logging
+logging.getLogger('jsonrpcclient.client.request').setLevel(logging.ERROR)
+logging.getLogger('jsonrpcclient.client.response').setLevel(logging.ERROR)
+
 # XXX is this right???
 path_regex = r'(?P<path>(?:(?:/[^/]+)+|/?))'
 
