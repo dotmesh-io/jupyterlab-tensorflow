@@ -7,3 +7,4 @@ RUN echo "c.NotebookApp.tornado_settings = {" >> /home/jovyan/.jupyter/jupyter_n
 	echo "        'Content-Security-Policy': \"frame-ancestors 'self' *\"" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
 	echo "    }" >> /home/jovyan/.jupyter/jupyter_notebook_config.py && \
 	echo "}" >> /home/jovyan/.jupyter/jupyter_notebook_config.py
+RUN cd /home/jovyan && rm -rf .cache .conda .config .npm work .yarn
