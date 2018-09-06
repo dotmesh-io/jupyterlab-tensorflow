@@ -34,7 +34,7 @@ RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-p
 
 ## install and activate the server extension
 RUN bash -c 'source activate base && \
-  pip install git+git://github.com/dotmesh-io/python-sdk@9a3ee0e984c9b86ca94ab6f40814e51c46e9966e#egg=datadots-api && \
+  pip install git+git://github.com/dotmesh-io/python-sdk@f34482fb2c8efbda9a1aba1b2f8e33ccb4e187ef#egg=datadots-api && \
   (cd /root/jupyterlab-plugin && pip install -e jupyterlab_dotscience_backend) \
   && jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix'
 
