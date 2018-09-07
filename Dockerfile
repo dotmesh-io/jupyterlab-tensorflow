@@ -1,22 +1,28 @@
-# # TensorFlow & scikit-learn with Python3
-FROM jupyter/tensorflow-notebook:4ebeb1f2d154
+# TensorFlow & scikit-learn with Python3
+FROM jupyter/tensorflow-notebook:137a295ff71b
+
+# Be root for some reason.
+USER root
+
+# Try to do everything via conda
+RUN bash -c 'source activate base && conda install git pip nodejs -y'
 
 # Install JupyterLab
-RUN pip install jupyterlab
-RUN jupyter serverextension enable --py jupyterlab
+RUN bash -c 'source activate base && pip install jupyterlab'
+RUN bash -c 'source activate base && jupyter serverextension enable --py jupyterlab'
 
 # Install Python library for Data Science
-RUN pip --no-cache-dir install \
+RUN bash -c 'source activate base && pip --no-cache-dir install \
         plotly \
         Pillow \
-        google-api-python-client
+        google-api-python-client'
 
 # Set up Jupyter Notebook config
 ENV CONFIG /home/jovyan/.jupyter/jupyter_notebook_config.py
 ENV CONFIG_IPYTHON /home/jovyan/.ipython/profile_default/ipython_config.py
 
-RUN jupyter notebook --generate-config --allow-root && \
-    ipython profile create
+RUN bash -c 'source activate base && rm /home/jovyan/.jupyter/jupyter_notebook_config.py && jupyter notebook --generate-config --allow-root && \
+    ipython profile create'
 
 RUN echo "c.NotebookApp.ip = '*'" >>${CONFIG} && \
     echo "c.NotebookApp.open_browser = False" >>${CONFIG} && \
@@ -35,10 +41,7 @@ RUN echo "c.NotebookApp.tornado_settings = {" >> /etc/jupyter/jupyter_notebook_c
        echo "    }" >> /etc/jupyter/jupyter_notebook_config.py && \
        echo "}" >> /etc/jupyter/jupyter_notebook_config.py
 
-USER root
-
-RUN conda install git pip nodejs -y
-ENV last-update "2018-09-07 12:02"
+ENV last-update "2018-09-07 21:55"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ## install and activate the server extension
@@ -53,6 +56,12 @@ RUN bash -c 'source activate base && \
   npm install && \
   npm run build && \
   jupyter labextension install .'
+
+#  echo ============================== && \
+#  echo INSTALL WEBPACK && \
+#  cd /root/jupyterlab-plugin/jupyterlab_dotscience && \
+#  npm install --global webpack-cli webpack && \
+#  echo ============================== && \
 
 # Clean up files which otherwise get copied into the workspace dot, at the
 # expense of a few hundred meg.
