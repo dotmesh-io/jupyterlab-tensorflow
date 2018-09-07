@@ -1,0 +1,31 @@
+variables:
+  RELEASE_DOCKER_REGISTRY: quay.io
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - git checkout master && git pull --ff-only origin master
+  - git checkout $CI_COMMIT_REF_NAME && git reset --hard $CI_COMMIT_SHA
+  
+build:
+  stage: build
+  tags:
+    - ubuntu-bionic
+    - fast
+  script:
+  # do a build to check the commit didn't break things drastically - useful for branches.
+  - docker build -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA .
+
+push:
+  stage: deploy
+  tags:
+    - ubuntu-bionic
+    - fast
+  script:
+    - docker login -u $QUAY_USER -p $QUAY_PASSWORD $RELEASE_DOCKER_REGISTRY
+    # rebuild in case we landed on a different runner
+    - docker build -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA . && docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA
+  only:
+    - master
