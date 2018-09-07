@@ -29,12 +29,12 @@ RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_
 USER root
 
 RUN conda install git pip nodejs -y
-ENV last-update "2018-07-17 13:36"
+ENV last-update "2018-09-07 09:34"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ## install and activate the server extension
 RUN bash -c 'source activate base && \
-  pip install git+git://github.com/dotmesh-io/python-sdk@f34482fb2c8efbda9a1aba1b2f8e33ccb4e187ef#egg=datadots-api && \
+  pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01efe4d748aa76e648d841b#egg=datadots-api && \
   (cd /root/jupyterlab-plugin && pip install -e jupyterlab_dotscience_backend) \
   && jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix'
 
