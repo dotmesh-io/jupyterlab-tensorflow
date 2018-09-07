@@ -26,6 +26,15 @@ RUN echo "c.NotebookApp.ip = '*'" >>${CONFIG} && \
 RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
 
 # ==== OUR STUFF FOLLOWS ====
+
+# Enable a more liberal Content-Security-Policy so that we can display Jupyter
+# in an iframe.
+RUN echo "c.NotebookApp.tornado_settings = {" >> /etc/jupyter/jupyter_notebook_config.py && \
+       echo "    'headers': {" >> /etc/jupyter/jupyter_notebook_config.py && \
+       echo "        'Content-Security-Policy': \"frame-ancestors 'self' *\"" >> /etc/jupyter/jupyter_notebook_config.py && \
+       echo "    }" >> /etc/jupyter/jupyter_notebook_config.py && \
+       echo "}" >> /etc/jupyter/jupyter_notebook_config.py
+
 USER root
 
 RUN conda install git pip nodejs -y
@@ -44,6 +53,10 @@ RUN bash -c 'source activate base && \
   npm install && \
   npm run build && \
   jupyter labextension install .'
+
+# Clean up files which otherwise get copied into the workspace dot, at the
+# expense of a few hundred meg.
+RUN cd /home/jovyan && rm -rf .cache .conda .config .npm work .yarn
 
 ## override the entrypoint to allow root
 CMD /bin/bash -c "source activate base && jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --notebook-dir /home/jovyan"
