@@ -38,7 +38,7 @@ RUN echo "c.NotebookApp.tornado_settings = {" >> /etc/jupyter/jupyter_notebook_c
 USER root
 
 RUN conda install git pip nodejs -y
-ENV last-update "2018-09-07 09:34"
+ENV last-update "2018-09-07 12:02"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ## install and activate the server extension
