@@ -41,7 +41,7 @@ RUN echo "c.NotebookApp.tornado_settings = {" >> /etc/jupyter/jupyter_notebook_c
        echo "    }" >> /etc/jupyter/jupyter_notebook_config.py && \
        echo "}" >> /etc/jupyter/jupyter_notebook_config.py
 
-ENV last-update "2018-09-07 21:55"
+ENV last-update "2018-09-08 08:41"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ## install and activate the server extension
