@@ -33,39 +33,24 @@ RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_
 
 # ==== OUR STUFF FOLLOWS ====
 
-# Enable a more liberal Content-Security-Policy so that we can display Jupyter
-# in an iframe.
-RUN echo "c.NotebookApp.tornado_settings = {" >> /etc/jupyter/jupyter_notebook_config.py && \
-       echo "    'headers': {" >> /etc/jupyter/jupyter_notebook_config.py && \
-       echo "        'Content-Security-Policy': \"frame-ancestors 'self' *\"" >> /etc/jupyter/jupyter_notebook_config.py && \
-       echo "    }" >> /etc/jupyter/jupyter_notebook_config.py && \
-       echo "}" >> /etc/jupyter/jupyter_notebook_config.py
-
 ENV last-update "2018-09-08 08:41"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
+ADD ./scripts /scripts
+
 ## install and activate the server extension
-RUN bash -c 'source activate base && \
-  pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01efe4d748aa76e648d841b#egg=datadots-api && \
-  (cd /root/jupyterlab-plugin && pip install -e jupyterlab_dotscience_backend) \
-  && jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix'
+RUN bash /scripts/install-server-extension.sh
 
 ## install and activate the browser extension
-RUN bash -c 'source activate base && \
-  cd /root/jupyterlab-plugin/jupyterlab_dotscience && \
-  npm install && \
-  npm run build && \
-  jupyter labextension install .'
+RUN bash /scripts/install-browser-extension.sh
 
-#  echo ============================== && \
-#  echo INSTALL WEBPACK && \
-#  cd /root/jupyterlab-plugin/jupyterlab_dotscience && \
-#  npm install --global webpack-cli webpack && \
-#  echo ============================== && \
+# Enable a more liberal Content-Security-Policy so that we can display Jupyter
+# in an iframe.
+RUN bash /scripts/update-content-security-policy.sh
 
 # Clean up files which otherwise get copied into the workspace dot, at the
 # expense of a few hundred meg.
 RUN cd /home/jovyan && rm -rf .cache .conda .config .npm work .yarn
 
 ## override the entrypoint to allow root
-CMD /bin/bash -c "source activate base && jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --notebook-dir /home/jovyan"
+CMD /bin/bash /scripts/start-jupyter.sh
