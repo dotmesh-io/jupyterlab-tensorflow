@@ -2,11 +2,4 @@
 
 jupyterlab with tensorflow and the dotmesh jupyterlab extension
 
-If any code inside of our [jupyterlab-plugin](https://github.com/dotmesh-io/jupyterlab-plugin) repo changes (server or browser extension) - one must:
-
-```bash
-git clone https://github.com/dotmesh-io/jupyterlab-tensorflow
-cd jupyterlab-tensorflow
-docker build -t quay.io/dotmesh/jupyterlab-tensorflow:v4 .
-docker push quay.io/dotmesh/jupyterlab-tensorflow:v4
-```
+This is now fully integrated into CI, so any changes here will get pushed and tested via e2e tests. Be aware though that we don't yet have frontend tests, so you should still manually check everything is ok.
