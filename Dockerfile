@@ -41,6 +41,9 @@ ADD ./scripts /scripts
 ## install and activate the server extension
 RUN bash /scripts/install-server-extension.sh
 
+## install the dotscience workload library
+RUN pip install dotscience
+
 ## install and activate the browser extension
 RUN bash /scripts/install-browser-extension.sh
 
