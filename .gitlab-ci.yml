@@ -36,8 +36,8 @@ trigger_e2e_test:
       - ubuntu-bionic
       - fast
   script:
-      - echo - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHA" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" https://gitlab.dotmesh.com/api/v4/projects/46/trigger/pipeline
-      - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHA" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" https://gitlab.dotmesh.com/api/v4/projects/46/trigger/pipeline
+      - echo - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHA" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/46/trigger/pipeline
+      - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHA" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/46/trigger/pipeline
   only:
       - master
   except:
