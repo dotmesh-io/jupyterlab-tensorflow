@@ -1,5 +1,5 @@
 # TensorFlow & scikit-learn with Python3
-FROM jupyter/tensorflow-notebook:137a295ff71b
+FROM jupyter/tensorflow-notebook:50d1eb9ec2d8
 
 # Be root for some reason.
 USER root
