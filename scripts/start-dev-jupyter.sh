@@ -5,4 +5,5 @@ set -xe
 # in dev mode - we have mounted the jupyterlab-plugin repo to /root/jupyterlab-plugin
 
 bash /scripts/install-server-extension.sh
+bash /scripts/install-browser-extension.sh
 bash /scripts/start-jupyter.sh
