@@ -1,5 +1,5 @@
 # TensorFlow & scikit-learn with Python3
-FROM jupyter/tensorflow-notebook:137a295ff71b
+FROM jupyter/tensorflow-notebook:50d1eb9ec2d8
 
 # Be root for some reason.
 USER root
@@ -33,13 +33,16 @@ RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_
 
 # ==== OUR STUFF FOLLOWS ====
 
-ENV last-update "2018-09-08 08:41"
+ENV last-update "2018-11-01 11:22"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ADD ./scripts /scripts
 
 ## install and activate the server extension
 RUN bash /scripts/install-server-extension.sh
+
+## install the dotscience workload library
+RUN pip install dotscience
 
 ## install and activate the browser extension
 RUN bash /scripts/install-browser-extension.sh
