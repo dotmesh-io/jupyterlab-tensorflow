@@ -42,7 +42,9 @@ ADD ./scripts /scripts
 RUN bash /scripts/install-server-extension.sh
 
 ## install the dotscience workload library
-RUN pip install dotscience
+## TODO: revert this to the pip package when ready
+#RUN pip install dotscience
+RUN pip install --upgrade git+git://github.com/dotmesh-io/dotscience-python
 
 ## install and activate the browser extension
 RUN bash /scripts/install-browser-extension.sh
