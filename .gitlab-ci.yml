@@ -28,7 +28,7 @@ push:
     # rebuild in case we landed on a different runner
     - docker build -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA . 
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA
-    - docker tag -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME 
+    - docker tag quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME 
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME
   only:
     - master
