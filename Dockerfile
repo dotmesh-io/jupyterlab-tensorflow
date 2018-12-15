@@ -42,6 +42,9 @@ RUN apt-get update && apt-get install -y git nodejs
 RUN apt-get install -y libsm6 libxrender-dev libxext6
 RUN pip install opencv-python scikit-image
 
+# JupyterLab (on top of a jupyter-only base)
+RUN pip install jupyterlab
+
 # Our Jupyter plugin
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
