@@ -33,7 +33,7 @@ RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_
 
 # ==== OUR STUFF FOLLOWS ====
 
-ENV last-update "2018-12-15 08:39"
+ENV last-update "2018-12-15 08:49"
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ADD ./scripts /scripts
