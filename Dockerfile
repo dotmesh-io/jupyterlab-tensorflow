@@ -32,11 +32,17 @@ FROM tensorflow/tensorflow:latest-gpu-py3
 #RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
 
 # ==== OUR STUFF FOLLOWS ====
+ENV last-update "2018-12-15 11:14"
 
+# Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
 RUN apt-get update && apt-get install -y git nodejs
 
-ENV last-update "2018-12-15 11:14"
+# Data science stuff
+RUN apt-get install -y libsm6 libxrender-dev libxext6
+RUN pip install opencv-python scikit-image
+
+# Our Jupyter plugin
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
 
 ADD ./scripts /scripts
