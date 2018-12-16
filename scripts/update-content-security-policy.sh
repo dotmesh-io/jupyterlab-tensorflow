@@ -13,4 +13,5 @@ c.NotebookApp.tornado_settings = {
     'Content-Security-Policy': "frame-ancestors 'self' *"
   }
 }
+c.NotebookApp.allow_origin = '*'
 EOF
