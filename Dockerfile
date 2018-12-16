@@ -46,7 +46,7 @@ RUN pip install opencv-python scikit-image
 RUN pip install jupyterlab
 
 # Our Jupyter plugin
-RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin /root/jupyterlab-plugin
+RUN mkdir -p /plugin && git clone https://github.com/dotmesh-io/jupyterlab-plugin /plugin/jupyterlab-plugin
 
 ADD ./scripts /scripts
 
