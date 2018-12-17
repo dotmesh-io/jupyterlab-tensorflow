@@ -1,5 +1,5 @@
 # TensorFlow image has GPU support and Jupyter
-FROM tensorflow/tensorflow:latest-gpu-py3
+FROM tensorflow/tensorflow:latest-py3
 
 # Be root for some reason.
 #USER root
@@ -32,7 +32,7 @@ FROM tensorflow/tensorflow:latest-gpu-py3
 #RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2018-12-15 11:14"
+ENV last-update "2018-12-17 11:14"
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
