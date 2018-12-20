@@ -54,8 +54,8 @@ ADD ./scripts /scripts
 RUN bash /scripts/install-server-extension.sh
 
 ## install the dotscience workload library
-## TODO: revert this to the pip package when ready
-#RUN pip install dotscience
+
+ENV cache-bust $dotscience_python_tag
 RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag ; fi
 
 ## install and activate the browser extension
