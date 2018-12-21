@@ -26,9 +26,9 @@ push:
   script:
     - docker login -u $QUAY_USER -p $QUAY_PASSWORD $RELEASE_DOCKER_REGISTRY
     # rebuild in case we landed on a different runner
-    - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA . 
-    - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA
-    - docker tag quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME 
+    - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHORT_SHA-ds${DOTSCIENCE_TAG:latest} . 
+    - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHORT_SHA-ds${DOTSCIENCE_TAG:latest}
+    - docker tag quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHORT_SHA-ds${DOTSCIENCE_TAG:latest} quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME 
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME
   only:
     - master
@@ -39,8 +39,7 @@ trigger_e2e_test:
       - ubuntu-bionic
       - fast
   script:
-      - echo - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHA" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
-      - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHA" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
+      - curl -X POST -F "token=$CI_JOB_TOKEN" -F "ref=master" -F "variables[CI_SKIP_DOTHUB]=1" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$CI_COMMIT_SHORT_SHA-ds${DOTSCIENCE_TAG:latest}" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$CI_BUILD_REF_NAME" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
   only:
       - master
   except:
