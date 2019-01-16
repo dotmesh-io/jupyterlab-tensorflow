@@ -32,7 +32,7 @@ FROM tensorflow/tensorflow:latest-py3
 #RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2018-12-17 11:14"
+ENV last-update "2019-01-16 15:57"
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
