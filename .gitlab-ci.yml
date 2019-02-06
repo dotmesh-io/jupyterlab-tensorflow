@@ -18,6 +18,19 @@ build:
   # do a build to check the commit didn't break things drastically - useful for branches.
   - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest} .
 
+# if we want a jupyter image on a branch - trigger the push manually
+push_manual_branch:
+  stage: deploy
+  tags:
+    - ubuntu-bionic
+    - fast
+  script:
+    - docker login -u $QUAY_USER -p $QUAY_PASSWORD $RELEASE_DOCKER_REGISTRY
+    # rebuild in case we landed on a different runner
+    - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA . 
+    - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA
+  when: manual
+
 push:
   stage: deploy
   tags:
