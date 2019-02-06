@@ -32,7 +32,7 @@ FROM tensorflow/tensorflow:latest-py3
 #RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-02-06 11:36"
+ENV last-update "2019-02-06 12:17"
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
@@ -47,6 +47,7 @@ RUN pip install jupyterlab
 
 # Our Jupyter plugin
 RUN mkdir -p /plugin && git clone https://github.com/dotmesh-io/jupyterlab-plugin /plugin/jupyterlab-plugin
+RUN cd /plugin/jupyterlab-plugin && git checkout 15-test
 
 ADD ./scripts /scripts
 
