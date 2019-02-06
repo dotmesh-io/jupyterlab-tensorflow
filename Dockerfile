@@ -47,7 +47,6 @@ RUN pip install jupyterlab
 
 # Our Jupyter plugin
 RUN mkdir -p /plugin && git clone https://github.com/dotmesh-io/jupyterlab-plugin /plugin/jupyterlab-plugin
-RUN cd /plugin/jupyterlab-plugin && git checkout 15-test
 
 ADD ./scripts /scripts
 
