@@ -28,7 +28,7 @@ push:
     - docker login -u $QUAY_USER -p $QUAY_PASSWORD $RELEASE_DOCKER_REGISTRY
     # rebuild in case we landed on a different runner
     - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} . 
-    - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}
+    - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest}
     - docker tag quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME 
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME
 
