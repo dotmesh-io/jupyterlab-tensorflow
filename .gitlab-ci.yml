@@ -16,7 +16,7 @@ build:
     - fast
   script:
   # do a build to check the commit didn't break things drastically - useful for branches.
-  - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest} .
+  - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} .
 
 push:
   stage: deploy
