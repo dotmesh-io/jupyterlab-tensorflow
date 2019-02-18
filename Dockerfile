@@ -44,14 +44,15 @@ RUN pip install opencv-python scikit-image
 
 # JupyterLab (on top of a jupyter-only base)
 RUN pip install jupyterlab
+# dotmesh sdk
+RUN pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01efe4d748aa76e648d841b#egg=datadots-api
 
 # Our Jupyter plugin
-RUN mkdir -p /plugin && git clone https://github.com/dotmesh-io/jupyterlab-plugin /plugin/jupyterlab-plugin
+ARG plugin_version
+RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version ; fi
+RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ADD ./scripts /scripts
-
-## install and activate the server extension
-RUN bash /scripts/install-server-extension.sh
 
 ## install the dotscience workload library
 
@@ -59,7 +60,8 @@ ARG dotscience_python_tag
 RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag ; fi
 
 ## install and activate the browser extension
-RUN bash /scripts/install-browser-extension.sh
+RUN if [ "x$plugin_version" = "x" ] ; then npm install @dotscience/jupyterlab-plugin ; else npm install @dotscience/jupyterlab-plugin@$plugin_version ; fi
+RUN cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
 
 # Enable a more liberal Content-Security-Policy so that we can display Jupyter
 # in an iframe.
