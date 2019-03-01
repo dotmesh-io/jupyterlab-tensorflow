@@ -18,6 +18,7 @@ build:
   script:
   # do a build to check the commit didn't break things drastically - useful for branches.
   - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} -f Dockerfile.cpu .
+  - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} -f Dockerfile.gpu .
 
 push:
   stage: deploy
@@ -28,9 +29,13 @@ push:
     - docker login -u $QUAY_USER -p $QUAY_PASSWORD $RELEASE_DOCKER_REGISTRY
     # rebuild in case we landed on a different runner
     - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} -f Dockerfile.cpu .
+    - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} -f Dockerfile.gpu .
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest}
-    - docker tag quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME 
+    - docker push quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest}
+    - docker tag quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME
+    - docker tag quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_BUILD_REF_NAME
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_BUILD_REF_NAME
+    - docker push quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_BUILD_REF_NAME
 
 push_semver:
   stage: deploy
@@ -41,7 +46,9 @@ push_semver:
     - docker login -u $QUAY_USER -p $QUAY_PASSWORD $RELEASE_DOCKER_REGISTRY
     # rebuild in case we landed on a different runner
     - docker build -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_TAG -f Dockerfile.cpu .
+    - docker build -t quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_COMMIT_TAG -f Dockerfile.gpu .
     - docker push quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_TAG
+    - docker push quay.io/dotmesh/jupyterlab-tensorflow-gpu:$CI_COMMIT_TAG
   only:
     refs:
        - tags
