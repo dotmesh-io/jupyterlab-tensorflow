@@ -7,8 +7,6 @@ ENV last-update "2019-02-18 11:54"
 RUN apt-get install -y curl
 
 # Node
-# make it so that if the curl command fails we aren't screwed
-RUN set -euxo pipefail
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
 RUN apt-get update && apt-get install -y git nodejs
 

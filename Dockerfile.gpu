@@ -1,38 +1,10 @@
 # TensorFlow image has GPU support and Jupyter
-FROM tensorflow/tensorflow:latest-gpu-py3
-
-# Be root for some reason.
-#USER root
-
-# Try to do everything via conda
-#RUN bash -c 'source activate base && conda install git pip nodejs -y'
-
-# Install JupyterLab
-#RUN bash -c 'source activate base && pip install jupyterlab'
-#RUN bash -c 'source activate base && jupyter serverextension enable --py jupyterlab'
-
-# Install Python library for Data Science
-#RUN bash -c 'source activate base && pip --no-cache-dir install \
-#        plotly \
-#        Pillow \
-#        google-api-python-client'
-
-# Set up Jupyter Notebook config
-#ENV CONFIG /home/jovyan/.jupyter/jupyter_notebook_config.py
-#ENV CONFIG_IPYTHON /home/jovyan/.ipython/profile_default/ipython_config.py
-
-#RUN bash -c 'source activate base && rm /home/jovyan/.jupyter/jupyter_notebook_config.py && jupyter notebook --generate-config --allow-root && \
-#    ipython profile create'
-
-#RUN echo "c.NotebookApp.ip = '*'" >>${CONFIG} && \
-#    echo "c.NotebookApp.open_browser = False" >>${CONFIG} && \
-#    echo "c.NotebookApp.iopub_data_rate_limit=10000000000" >>${CONFIG} && \
-#    echo "c.MultiKernelManager.default_kernel_name = 'python3'" >>${CONFIG}
-
-#RUN echo "c.InteractiveShellApp.exec_lines = ['%matplotlib inline']" >>${CONFIG_IPYTHON}
+FROM tensorflow/tensorflow:1.12.0-gpu-py3
 
 # ==== OUR STUFF FOLLOWS ====
 ENV last-update "2019-03-01 15:57"
+
+RUN apt-get install -y curl
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
