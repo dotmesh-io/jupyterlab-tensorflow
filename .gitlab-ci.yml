@@ -9,12 +9,14 @@ stages:
 before_script:
   - git checkout master && git pull --ff-only origin master
   - git checkout $CI_COMMIT_REF_NAME && git reset --hard $CI_COMMIT_SHA
-  
+
 build:
   stage: build
   tags:
     - ubuntu-bionic
     - fast
+  # PyPI doesn't immediately make available packages that we published a moment ago. So keep trying for a bit.
+  retry: 5
   script:
   # do a build to check the commit didn't break things drastically - useful for branches.
   - docker build --build-arg dotscience_python_tag=$DOTSCIENCE_TAG --build-arg plugin_version=$PLUGIN_TAG -t quay.io/dotmesh/jupyterlab-tensorflow:$CI_COMMIT_SHA-ds-${DOTSCIENCE_TAG:-latest}-plugyn-${PLUGIN_TAG:-latest} -f Dockerfile.cpu .
