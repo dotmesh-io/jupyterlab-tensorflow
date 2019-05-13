@@ -19,9 +19,12 @@ RUN pip install jupyterlab
 # dotmesh sdk
 RUN pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01efe4d748aa76e648d841b#egg=datadots-api
 
+## NB: sleep 120 on failure cases is so that, in combination with gitlab retries, we
+## give the package backend a chance to converge
+
 # Our Jupyter plugin
 ARG plugin_version
-RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version ; fi
+RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version || sleep 120 ; fi
 RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ADD ./scripts /scripts
@@ -29,10 +32,10 @@ ADD ./scripts /scripts
 ## install the dotscience workload library
 
 ARG dotscience_python_tag
-RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag ; fi
+RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag || sleep 120 ; fi
 
 ## install and activate the browser extension
-RUN if [ "x$plugin_version" = "x" ] ; then npm install @dotscience/jupyterlab-plugin ; else npm install @dotscience/jupyterlab-plugin@$plugin_version ; fi
+RUN if [ "x$plugin_version" = "x" ] ; then npm install @dotscience/jupyterlab-plugin ; else npm install @dotscience/jupyterlab-plugin@$plugin_version || sleep 120 ; fi
 RUN cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
 
 # Enable a more liberal Content-Security-Policy so that we can display Jupyter
