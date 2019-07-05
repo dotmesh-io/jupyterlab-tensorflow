@@ -2,7 +2,7 @@
 FROM tensorflow/tensorflow:1.14.0-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-07-05 10:26"
+ENV last-update "2019-07-05 16:59"
 
 RUN apt-get install -y curl
 
@@ -37,11 +37,7 @@ ARG dotscience_python_tag
 RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag || sleep 120 ; fi
 
 ## install and activate the browser extension
-# XXX for now, sidestep npm, as it's breaking mysteriously (possibly the npm
-# build is using mismatching jupyterlab js libs, but it works in _this_ build
-# env)
-# https://gitlab.dotmesh.com/dotmesh/jupyterlab-plugin-sync/-/jobs/184277
-
+# XXX for now, sidestep npm, as we need to build from a branch
 RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin && \
     cd jupyterlab-plugin && \
     git checkout upgrade-to-jupyterlab-1.0.1-hopefully && \
