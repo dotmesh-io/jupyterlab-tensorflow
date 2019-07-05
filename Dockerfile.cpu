@@ -1,8 +1,8 @@
 # TensorFlow image has GPU support and Jupyter
-FROM tensorflow/tensorflow:1.12.0-py3
+FROM tensorflow/tensorflow:1.12.3-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-02-18 11:54"
+ENV last-update "2019-07-05 10:26"
 
 RUN apt-get install -y curl
 

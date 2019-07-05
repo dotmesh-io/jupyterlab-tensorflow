@@ -1,8 +1,8 @@
 # TensorFlow image has GPU support and Jupyter
-FROM tensorflow/tensorflow:1.12.0-gpu-py3
+FROM tensorflow/tensorflow:1.12.3-gpu-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-03-01 15:57"
+ENV last-update "2019-07-05 10:26"
 
 RUN apt-get install -y curl
 
@@ -30,6 +30,7 @@ RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-pref
 ADD ./scripts /scripts
 
 ## install the dotscience workload library
+ENV dotscience_python_bust_cache_paranoia 0.2.2
 
 ARG dotscience_python_tag
 RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag || sleep 120 ; fi
