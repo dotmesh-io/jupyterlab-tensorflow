@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y git nodejs
 RUN node -v
 
 # Data science stuff
-RUN apt-get install -y libsm6 libxrender-dev libxext6
+RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip
 RUN pip install sklearn opencv-python scikit-image seaborn
 
 # JupyterLab (on top of a jupyter-only base)
