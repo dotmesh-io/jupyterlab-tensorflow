@@ -13,7 +13,7 @@ RUN node -v
 
 # Data science stuff
 RUN apt-get install -y libsm6 libxrender-dev libxext6
-RUN pip install opencv-python scikit-image seaborn
+RUN pip install sklearn opencv-python scikit-image seaborn
 
 # JupyterLab (on top of a jupyter-only base)
 RUN pip install jupyterlab
