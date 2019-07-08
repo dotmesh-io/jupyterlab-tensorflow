@@ -1,18 +1,19 @@
 # TensorFlow image has GPU support and Jupyter
-FROM tensorflow/tensorflow:1.12.0-gpu-py3
+FROM tensorflow/tensorflow:1.14.0-gpu-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-03-01 15:57"
+ENV last-update "2019-07-08 12:34"
 
 RUN apt-get install -y curl
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
 RUN apt-get update && apt-get install -y git nodejs
+RUN node -v
 
 # Data science stuff
 RUN apt-get install -y libsm6 libxrender-dev libxext6
-RUN pip install opencv-python scikit-image
+RUN pip install sklearn opencv-python scikit-image seaborn
 
 # JupyterLab (on top of a jupyter-only base)
 RUN pip install jupyterlab
@@ -22,15 +23,17 @@ RUN pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01ef
 ## NB: sleep 120 on failure cases is so that, in combination with gitlab retries, we
 ## give the package backend a chance to converge
 
+ENV dotscience_python_bust_cache_paranoia 0.2.2
+ENV dotscience_jupyter_plugin_bust_cache_paranoia 0.2.12
+
 # Our Jupyter plugin
 ARG plugin_version
-RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version || sleep 120 ; fi
+RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version || sleep 120; fi
 RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ADD ./scripts /scripts
 
 ## install the dotscience workload library
-
 ARG dotscience_python_tag
 RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag || sleep 120 ; fi
 
