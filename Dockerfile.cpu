@@ -37,15 +37,8 @@ ARG dotscience_python_tag
 RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag || sleep 120 ; fi
 
 ## install and activate the browser extension
-# XXX for now, sidestep npm, as we need to build from a branch
-RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin && \
-    cd jupyterlab-plugin && \
-    git checkout upgrade-to-jupyterlab-1.0.1-hopefully && \
-    cd jupyterlab_dotscience && \
-    npm install -g typescript && \
-    npm install -g . && \
-    tsc && \
-    jupyter labextension install .
+RUN if [ "x$plugin_version" = "x" ] ; then npm install @dotscience/jupyterlab-plugin ; else npm install @dotscience/jupyterlab-plugin@$plugin_version || sleep 120 ; fi
+RUN cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
 
 # Enable a more liberal Content-Security-Policy so that we can display Jupyter
 # in an iframe.
