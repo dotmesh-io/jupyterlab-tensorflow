@@ -4,6 +4,7 @@ set -xe
 # make sure we use the -w flag passed to docker run as where to load the notebooks
 # from - this will be the same place as the workspace dot is mounted
 export NOTEBOOK_DIR=${NOTEBOOK_DIR:="$PWD"}
+export SHELL=bash
 
 # expects git clone https://github.com/dotmesh-io/jupyterlab-plugin /plugin/jupyterlab-plugin
 # in dev mode - we have mounted the jupyterlab-plugin repo to /plugin/jupyterlab-plugin
