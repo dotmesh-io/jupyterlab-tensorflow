@@ -47,7 +47,7 @@ RUN bash /scripts/update-content-security-policy.sh
 
 # Autosave every second to avoid having to save after a run for Dotscience to
 # trigger a run.
-RUN mkdir -p /usr/local/etc/jupyter/lab/user-settings/@jupyterlab/docmanager-extension && echo '{"autosaveInterval": 1}' > /usr/local/etc/jupyter/lab/user-settings/@jupyterlab/docmanager-extension/plugin.jupyterlab-settings
+RUN mkdir -p /usr/local/share/jupyter/lab/settings && echo '{"@jupyterlab/docmanager-extension":{"autosaveInterval": 1}}' > /usr/local/share/jupyter/lab/settings/overrides.json
 
 # Clean up files which otherwise get copied into the workspace dot, at the
 # expense of a few hundred meg.
