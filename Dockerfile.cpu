@@ -2,7 +2,7 @@
 FROM tensorflow/tensorflow:1.14.0-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-07-09 19:08"
+ENV last-update "2019-07-10 15:04"
 
 RUN apt-get install -y curl
 
