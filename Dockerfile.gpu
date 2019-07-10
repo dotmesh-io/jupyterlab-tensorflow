@@ -2,7 +2,7 @@
 FROM tensorflow/tensorflow:1.14.0-gpu-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-07-08 12:34"
+ENV last-update "2019-07-08 17:46"
 
 RUN apt-get install -y curl
 
@@ -40,6 +40,17 @@ RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscien
 ## install and activate the browser extension
 RUN if [ "x$plugin_version" = "x" ] ; then npm install @dotscience/jupyterlab-plugin ; else npm install @dotscience/jupyterlab-plugin@$plugin_version || sleep 120 ; fi
 RUN cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
+
+# for branch builds, replace the above with this and specify the branch in 'git
+# checkout' below
+#RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin && \
+#    cd jupyterlab-plugin && \
+#    git checkout frontend-ng-498-reverse-commits-hide-initial && \
+#    cd jupyterlab_dotscience && \
+#    npm install -g typescript && \
+#    npm install -g . && \
+#    tsc && \
+#    jupyter labextension install . || (cat /tmp/jupyterlab-debug-*.log ; false)
 
 # Enable a more liberal Content-Security-Policy so that we can display Jupyter
 # in an iframe.
