@@ -28,7 +28,7 @@ ENV dotscience_jupyter_plugin_bust_cache_paranoia 0.2.15b
 
 # Our Jupyter plugin
 ARG plugin_version
-RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version || sleep 120; fi
+RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version || (sleep 120; false); fi
 RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ADD ./scripts /scripts
