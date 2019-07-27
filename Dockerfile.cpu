@@ -2,7 +2,7 @@
 FROM tensorflow/tensorflow:1.14.0-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
-ENV last-update "2019-07-10 17:46"
+ENV last-update "2019-07-27 11:25"
 
 RUN apt-get install -y curl
 
@@ -24,7 +24,7 @@ RUN pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01ef
 ## give the package backend a chance to converge
 
 ENV dotscience_python_bust_cache_paranoia 0.4.0
-ENV dotscience_jupyter_plugin_bust_cache_paranoia 0.2.16
+ENV dotscience_jupyter_plugin_bust_cache_paranoia 0.2.17
 
 # Our Jupyter plugin
 ARG plugin_version
