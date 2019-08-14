@@ -1,0 +1,32 @@
+kind: pipeline
+name: default
+
+steps:
+- name: docker  
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: quay.io/dotmesh/jupyterlab-tensorflow
+    registry: quay.io   
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+      - ${DRONE_BRANCH}
+- name: trigger-e2e
+  image: arwineap/docker-alpine-toolbox:latest
+  secrets: [ e2e_trigger_token ]
+  commands:
+    - curl -X POST -F "token=bc7a0cdd0a509425ab7d33a9654b3c" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=tester" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
+- name: slack
+  image: plugins/slack
+  when:
+    status: [ success, failure ]
+  settings:
+    webhook:
+      from_secret: slack_webhook
+    channel: ci
+    username: drone
+    icon_url: https://i.pinimg.com/originals/51/29/a4/5129a48ddad9e8408d2757dd10eb836f.jpg
