@@ -14,10 +14,11 @@ RUN node -v
 # Data science stuff
 RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip wget
 
+WORKDIR /app
 ADD ./scripts /scripts
-ADD requirements.txt /requirements.txt
-ADD package.json /package.json
-ADD package-lock.json /package-lock.json
+ADD requirements.txt /app/requirements.txt
+ADD package.json /app/package.json
+ADD package-lock.json /app/package-lock.json
 
 RUN pip install -r requirements.txt
 RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix

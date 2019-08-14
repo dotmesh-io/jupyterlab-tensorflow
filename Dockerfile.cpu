@@ -11,10 +11,11 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
 RUN apt-get update && apt-get install -y git nodejs
 RUN node -v
 
+WORKDIR /app
 ADD ./scripts /scripts
-ADD requirements.txt /requirements.txt
-ADD package.json /package.json
-ADD package-lock.json /package-lock.json
+ADD requirements.txt /app/requirements.txt
+ADD package.json /app/package.json
+ADD package-lock.json /app/package-lock.json
 
 # Data science stuff
 RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip wget
