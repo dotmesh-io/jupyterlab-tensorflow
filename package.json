@@ -1,0 +1,22 @@
+{
+  "name": "jupyterlab-tensorflow",
+  "version": "1.0.0",
+  "description": "jupyterlab tensorflow image containing npm package and python package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotmesh-io/jupyterlab-tensorflow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dotmesh-io/jupyterlab-tensorflow/issues"
+  },
+  "homepage": "https://github.com/dotmesh-io/jupyterlab-tensorflow#readme",
+  "dependencies": {
+    "@dotscience/jupyterlab-plugin": "^0.2.17"
+  }
+}

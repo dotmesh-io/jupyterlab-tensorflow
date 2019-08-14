@@ -11,34 +11,15 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
 RUN apt-get update && apt-get install -y git nodejs
 RUN node -v
 
-# Data science stuff
-RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip wget
-RUN pip install sklearn opencv-python scikit-image seaborn
-
-# JupyterLab (on top of a jupyter-only base)
-RUN pip install jupyterlab
-# dotmesh sdk
-RUN pip install git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01efe4d748aa76e648d841b#egg=datadots-api
-
-## NB: sleep 120 on failure cases is so that, in combination with gitlab retries, we
-## give the package backend a chance to converge
-
-ENV dotscience_python_bust_cache_paranoia 0.4.0
-ENV dotscience_jupyter_plugin_bust_cache_paranoia 0.2.17
-
-# Our Jupyter plugin
-ARG plugin_version
-RUN if [ "x$plugin_version" = "x" ] ; then pip install --upgrade jupyterlab-dotscience-backend ; else pip install --upgrade jupyterlab-dotscience-backend==$plugin_version || (sleep 120; false); fi
-RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
-
 ADD ./scripts /scripts
 
-## install the dotscience workload library
-ARG dotscience_python_tag
-RUN if [ "x$dotscience_python_tag" = "x" ] ; then pip install --upgrade dotscience ; else pip install --upgrade dotscience==$dotscience_python_tag || sleep 120 ; fi
+# Data science stuff
+RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip wget
+RUN pip install -r requirements.txt
+RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ## install and activate the browser extension
-RUN if [ "x$plugin_version" = "x" ] ; then npm install @dotscience/jupyterlab-plugin ; else npm install @dotscience/jupyterlab-plugin@$plugin_version || sleep 120 ; fi
+RUN npm install
 RUN cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
 
 # for branch builds, replace the above with this and specify the branch in 'git

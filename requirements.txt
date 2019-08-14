@@ -1,0 +1,8 @@
+dotscience
+jupyterlab
+jupyterlab-dotscience-backend
+opencv-python 
+scikit-image 
+seaborn
+sklearn 
+git+git://github.com/dotmesh-io/python-sdk@bb1ace821d13b496e01efe4d748aa76e648d841b#egg=datadots-api
