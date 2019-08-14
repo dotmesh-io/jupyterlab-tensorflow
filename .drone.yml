@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-- name: docker  
+- name: docker-cpu
   image: plugins/docker
   settings:
     username: 
@@ -15,11 +15,27 @@ steps:
       - latest
       - ${DRONE_COMMIT_SHA}
       - ${DRONE_BRANCH}
+    dockerfile: Dockerfile.cpu
+- name: docker-gpu
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: quay.io/dotmesh/jupyterlab-tensorflow-gpu
+    registry: quay.io   
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+      - ${DRONE_BRANCH}
+    dockerfile: Dockerfile.gpu
 - name: trigger-e2e
   image: arwineap/docker-alpine-toolbox:latest
   secrets: [ e2e_trigger_token ]
   commands:
-    - curl -X POST -F "token=bc7a0cdd0a509425ab7d33a9654b3c" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=tester" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
+    - curl -X POST -F "token=bc7a0cdd0a509425ab7d33a9654b3c" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
+    - curl -X POST -F "token=bc7a0cdd0a509425ab7d33a9654b3c" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow-gpu" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-sync/trigger/pipeline
 - name: slack
   image: plugins/slack
   when:
