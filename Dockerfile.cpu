@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y git nodejs
 RUN node -v
 
 ADD ./scripts /scripts
+ADD requirements.txt /requirements.txt
+ADD package.json /package.json
+ADD package-lock.json /package-lock.json
 
 # Data science stuff
 RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip wget
