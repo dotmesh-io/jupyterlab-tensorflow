@@ -14,7 +14,6 @@ steps:
     tags:
       - ${DRONE_COMMIT_SHA}
       - ${DRONE_BRANCH}
-      - ${DRONE_TAG}
     dockerfile: Dockerfile.cpu
 - name: docker-gpu
   image: plugins/docker
@@ -28,6 +27,31 @@ steps:
     tags:
       - ${DRONE_COMMIT_SHA}
       - ${DRONE_BRANCH}
+    dockerfile: Dockerfile.gpu
+- name: docker-cpu
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: quay.io/dotmesh/jupyterlab-tensorflow
+    registry: quay.io
+    event: tag   
+    tags:
+      - ${DRONE_TAG}
+    dockerfile: Dockerfile.cpu
+- name: docker-gpu
+  image: plugins/docker
+  settings:
+    username: 
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: quay.io/dotmesh/jupyterlab-tensorflow-gpu
+    registry: quay.io  
+    event: tag 
+    tags:
       - ${DRONE_TAG}
     dockerfile: Dockerfile.gpu
 - name: trigger-e2e
