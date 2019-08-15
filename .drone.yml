@@ -83,6 +83,8 @@ steps:
   image: plugins/slack
   when:
     status: [ success, failure ]
+  depends_on:
+    - trigger-e2e
   settings:
     webhook:
       from_secret: slack_webhook
