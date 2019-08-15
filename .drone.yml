@@ -5,7 +5,7 @@ steps:
 - name: docker-cpu
   image: plugins/docker
   when:
-    event: push
+    event: [ push, pull_request ]
     status: success
   settings:
     username: 
@@ -21,7 +21,7 @@ steps:
 - name: docker-gpu
   image: plugins/docker
   when:
-    event: push
+    event: [ push, pull_request ]
     status: success
   settings:
     username: 
@@ -71,7 +71,7 @@ steps:
   image: arwineap/docker-alpine-toolbox:latest
   secrets: [ e2e_trigger_token ]
   when:
-    event: push
+    event: [ push, pull_request ]
     status: success
   depends_on:
     - docker-gpu
