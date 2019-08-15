@@ -1,4 +1,4 @@
-# jupyterlab-tensorflow
+# jupyterlab-tensorflow  [![Build Status](https://drone.app.cloud.dotscience.net/api/badges/dotmesh-io/jupyterlab-tensorflow/status.svg)](https://drone.app.cloud.dotscience.net/dotmesh-io/jupyterlab-tensorflow)
 
 JupyterLab with tensorflow and the dotmesh jupyterlab extension
 
