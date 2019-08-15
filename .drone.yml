@@ -4,6 +4,9 @@ name: default
 steps:
 - name: docker-cpu
   image: plugins/docker
+  when:
+    event: push
+    status: success
   settings:
     username: 
       from_secret: docker_username
@@ -17,6 +20,9 @@ steps:
     dockerfile: Dockerfile.cpu
 - name: docker-gpu
   image: plugins/docker
+  when:
+    event: push
+    status: success
   settings:
     username: 
       from_secret: docker_username
@@ -28,8 +34,11 @@ steps:
       - ${DRONE_COMMIT_SHA}
       - ${DRONE_BRANCH}
     dockerfile: Dockerfile.gpu
-- name: docker-cpu
+- name: docker-cpu-tag
   image: plugins/docker
+  when:
+    event: tag 
+    status: success
   settings:
     username: 
       from_secret: docker_username
@@ -37,12 +46,15 @@ steps:
       from_secret: docker_password
     repo: quay.io/dotmesh/jupyterlab-tensorflow
     registry: quay.io
-    event: tag   
+    
     tags:
       - ${DRONE_TAG}
     dockerfile: Dockerfile.cpu
-- name: docker-gpu
+- name: docker-gpu-tag
   image: plugins/docker
+  when:
+    event: tag 
+    status: success
   settings:
     username: 
       from_secret: docker_username
@@ -50,7 +62,9 @@ steps:
       from_secret: docker_password
     repo: quay.io/dotmesh/jupyterlab-tensorflow-gpu
     registry: quay.io  
-    event: tag 
+    when:
+      event: tag 
+      status: success
     tags:
       - ${DRONE_TAG}
     dockerfile: Dockerfile.gpu
