@@ -1,4 +1,9 @@
 {
     "enabled": true,
-    "branchPrefix": "renovate-"
+    "branchPrefix": "renovate-",
+    "schedule": [
+    "after 10pm every weekday",
+    "before 5am every weekday",
+    "every weekend"
+  ]
 }
