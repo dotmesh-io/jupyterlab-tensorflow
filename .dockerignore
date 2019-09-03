@@ -1,0 +1,6 @@
+Dockerfile*
+.drone.yml
+.git
+README.md
+.gitignore
+.dockerignore
