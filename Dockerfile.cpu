@@ -4,50 +4,18 @@ FROM tensorflow/tensorflow:1.14.0-py3-jupyter
 # ==== OUR STUFF FOLLOWS ====
 ENV last-update "2019-07-27 11:25"
 
-RUN apt-get install -y curl
-
-# Node
-RUN curl -sL https://deb.nodesource.com/setup_8.x |bash
-RUN apt-get update && apt-get install -y git nodejs
-RUN node -v
-
 WORKDIR /app
 ADD ./scripts /scripts
 ADD requirements.txt /app/requirements.txt
 ADD package.json /app/package.json
 ADD package-lock.json /app/package-lock.json
 
-# Data science stuff
-RUN apt-get install -y libsm6 libxrender-dev libxext6 unzip wget
-RUN pip install -r requirements.txt
-RUN jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
-
-## install and activate the browser extension
-RUN npm install
-RUN cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
-
-# for branch builds, replace the above with this and specify the branch in 'git
-# checkout' below
-#RUN git clone https://github.com/dotmesh-io/jupyterlab-plugin && \
-#    cd jupyterlab-plugin && \
-#    git checkout frontend-ng-498-reverse-commits-hide-initial && \
-#    cd jupyterlab_dotscience && \
-#    npm install -g typescript && \
-#    npm install -g . && \
-#    tsc && \
-#    jupyter labextension install . || (cat /tmp/jupyterlab-debug-*.log ; false)
-
-# Enable a more liberal Content-Security-Policy so that we can display Jupyter
-# in an iframe.
-RUN bash /scripts/update-content-security-policy.sh
-
-# Autosave every second to avoid having to save after a run for Dotscience to
-# trigger a run.
-RUN mkdir -p /usr/local/share/jupyter/lab/settings && echo '{"@jupyterlab/docmanager-extension:plugin":{"autosaveInterval": 1}}' > /usr/local/share/jupyter/lab/settings/overrides.json
-
-# Clean up files which otherwise get copied into the workspace dot, at the
-# expense of a few hundred meg.
-RUN cd /root && rm -rf .cache .conda .config .npm work .yarn
+# Install code we want, in a script so we can delete unneeded files and not have
+# them end up in the Docker image. Because it's one script the Docker builds
+# will be fairly slow, since they can't rely on caching. If the build slowness
+# ever becomes an issue we can switch to multi-stage builds, but it's probably
+# not worth it at this point since the code doesn't change that often.
+RUN /bin/bash /scripts/install-dotscience-changes.sh
 
 ## override the entrypoint to allow root
 CMD /bin/bash /scripts/start-jupyter.sh
