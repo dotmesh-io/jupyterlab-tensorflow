@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-apt-get install -y --no-install-recommends curl
+apt-get update && apt-get install -y --no-install-recommends curl
 
 # Node
 curl -sL https://deb.nodesource.com/setup_8.x |bash
