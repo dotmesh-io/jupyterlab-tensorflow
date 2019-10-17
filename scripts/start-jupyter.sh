@@ -8,6 +8,7 @@ export SHELL=bash
 
 # If GATEWAY_URL_PREFIX is set, run with given URL prefix (see https://jupyter-notebook.readthedocs.io/en/stable/config.html for details):
 if [ "${GATEWAY_URL_PREFIX:-}" != "" ]; then
+    mkdir -p ~/.jupyter
     cat > ~/.jupyter/jupyter_notebook_config.py << EOF
 c.NotebookApp.allow_remote_access = True
 c.NotebookApp.base_url = "$GATEWAY_URL_PREFIX"
