@@ -42,7 +42,7 @@ cd /root && rm -rf .cache .conda .config .npm work .yarn
 rm -rf /app/node_modules
 
 # Uninstall apt packages and caches we no longer need:
-apt-get remove -y git nodejs
+apt-get remove -y nodejs
 apt autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/*
