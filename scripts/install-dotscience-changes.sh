@@ -5,7 +5,11 @@ apt-get update && apt-get install -y --no-install-recommends curl
 
 # Node
 curl -sL https://deb.nodesource.com/setup_8.x |bash
-apt-get update && apt-get install -y --no-install-recommends git nodejs
+apt-get update && apt-get install -y --no-install-recommends nodejs
+
+# skipping --no-install-recommends for git in order to try and get ssh client
+# and anything else that git relies on...
+apt-get install -y git
 node -v
 
 # Data science stuff
