@@ -9,4 +9,4 @@ cd /plugin/jupyterlab-plugin/jupyterlab_dotscience
 npm install
 npm run build
 
-jupyter labextension install .
+jupyter labextension install . --dev-build=False
