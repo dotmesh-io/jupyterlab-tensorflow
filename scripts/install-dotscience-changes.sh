@@ -19,7 +19,7 @@ jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ## install and activate the browser extension
 npm install
-cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install .
+cd node_modules/@dotscience/jupyterlab-plugin && jupyter labextension install . --dev-build=False
 
 # for branch builds, replace the above with this and specify the branch in 'git
 # checkout' below
