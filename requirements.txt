@@ -2,7 +2,7 @@ dotscience==0.7.0
 jupyterlab==1.0.9
 jupyterlab-dotscience-backend==0.2.19
 opencv-python==4.1.0.25
-scikit-image==0.15.0
+scikit-image==0.16.2
 seaborn==0.9.0
 sklearn==0.0
 scikit-learn==0.21.3
