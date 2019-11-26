@@ -12,6 +12,7 @@ if [ "${GATEWAY_URL_PREFIX:-}" != "" ]; then
     cat > ~/.jupyter/jupyter_notebook_config.py << EOF
 c.NotebookApp.allow_remote_access = True
 c.NotebookApp.base_url = "$GATEWAY_URL_PREFIX"
+c.NotebookApp.iopub_data_rate_limit = 50000000
 EOF
 fi
 
