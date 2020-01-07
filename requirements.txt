@@ -1,4 +1,4 @@
-dotscience==0.8.3
+dotscience==0.8.6
 jupyterlab==1.0.9
 jupyterlab-dotscience-backend==0.2.26
 opencv-python==4.1.2.30
