@@ -12,6 +12,11 @@ apt-get update && apt-get install -y --no-install-recommends nodejs
 apt-get install -y git
 node -v
 
+# Hive and airflow bits
+apt-get update
+apt-get install -y libsasl2-dev
+pip install pyhive[hive] apache-airflow
+
 # Data science stuff
 apt-get install -y --no-install-recommends libsm6 libxrender-dev libxext6 unzip wget
 pip install -r requirements.txt
