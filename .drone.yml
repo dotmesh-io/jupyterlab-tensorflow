@@ -77,9 +77,9 @@ steps:
     - docker-gpu
     - docker-cpu
   commands:
-    - id=$(curl -X POST -F "token=$${E2E_TRIGGER_TOKEN}" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-firecracker-sync/trigger/pipeline | jq .id)
+    - id=$(curl -X POST -F "token=$${E2E_TRIGGER_TOKEN}" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/66/trigger/pipeline | jq .id)
     - echo "Triggered successfully, pipeline - https://gitlab.dotmesh.com/dotmesh/e2e-firecracker-sync/pipelines/$${id}"
-    - id=$(curl -X POST -F "token=$${E2E_TRIGGER_TOKEN}" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow-gpu" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/dotmesh%2Fe2e-firecracker-sync/trigger/pipeline | jq .id)
+    - id=$(curl -X POST -F "token=$${E2E_TRIGGER_TOKEN}" -F "ref=master" -F "variables[CI_SERVICE_BEING_TESTED]=jupyterlab-tensorflow-gpu" -F "variables[CI_DOCKER_TAG]=$DRONE_COMMIT" -F "variables[DOTMESH_CI_BUILD_REF_NAME]=$DRONE_COMMIT_BRANCH" -F "variables[RELEASE_TAG]=latest" https://gitlab.dotmesh.com/api/v4/projects/66/trigger/pipeline | jq .id)
     -  echo "Triggered successfully, pipeline - https://gitlab.dotmesh.com/dotmesh/e2e-firecracker-sync/pipelines/$${id}"
 - name: slack
   image: plugins/slack
