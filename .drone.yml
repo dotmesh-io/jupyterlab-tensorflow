@@ -69,7 +69,9 @@ steps:
     dockerfile: Dockerfile.gpu
 - name: trigger-e2e
   image: arwineap/docker-alpine-toolbox:latest
-  secrets: [ e2e_trigger_token ]
+  environment:
+    E2E_TRIGGER_TOKEN:
+      from_secret: e2e_trigger_token
   when:
     event: [ push, pull_request ]
     status: success
