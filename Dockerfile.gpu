@@ -1,5 +1,5 @@
 # TensorFlow image has GPU support and Jupyter
-FROM tensorflow/tensorflow:1.14.0-gpu-py3-jupyter
+FROM tensorflow/tensorflow:1.15.0-gpu-py3-jupyter
 
 # ==== OUR STUFF FOLLOWS ====
 ENV last-update "2019-07-27 11:25"
