@@ -3,6 +3,9 @@ set -euo pipefail
 
 apt-get update && apt-get install -y --no-install-recommends curl
 
+# Install requirements (includes upgraded JupyterLab)
+pip install -r ../requirements.txt
+
 # Node
 curl -sL https://deb.nodesource.com/setup_8.x |bash
 apt-get update && apt-get install -y --no-install-recommends nodejs
