@@ -5,7 +5,7 @@ FROM tensorflow/tensorflow:1.15.0-gpu-py3-jupyter
 ENV last-update "2019-07-27 11:25"
 
 WORKDIR /app
-ADD ./scripts /scripts
+ADD ./setup-scripts /scripts
 ADD requirements.txt /app/requirements.txt
 ADD package.json /app/package.json
 ADD package-lock.json /app/package-lock.json
@@ -18,4 +18,5 @@ ADD package-lock.json /app/package-lock.json
 RUN /bin/bash /scripts/install-dotscience-changes.sh
 
 ## override the entrypoint to allow root
+COPY ./install-scripts/start-jupyter.sh /scripts
 CMD ["/bin/bash", "/scripts/start-jupyter.sh"]
