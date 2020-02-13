@@ -4,7 +4,7 @@ set -euo pipefail
 apt-get update && apt-get install -y --no-install-recommends curl
 
 # Node
-curl -sL https://deb.nodesource.com/setup_8.x |bash
+curl -sL https://deb.nodesource.com/setup_10.x |bash
 apt-get update && apt-get install -y --no-install-recommends nodejs
 
 # skipping --no-install-recommends for git in order to try and get ssh client
