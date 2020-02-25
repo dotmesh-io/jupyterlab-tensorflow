@@ -4,10 +4,14 @@ set -xeuo pipefail
 # make sure we use the -w flag passed to docker run as where to load the notebooks
 # from - this will be the same place as the workspace dot is mounted
 export NOTEBOOK_DIR=${NOTEBOOK_DIR:="$PWD"}
+export USER_VENV="$NOTEBOOK_DIR/user-virtualenv"
 if [ -f "$NOTEBOOK_DIR/requirements.txt" ]; then
-    # Allow users to install packages, and in particular allow upgrades.
-    # This has the potential to break Jupyter, but such is life.
-    pip install --upgrade -r "$NOTEBOOK_DIR/requirements.txt"
+    if [ ! -d "$USER_VENV" ]; then
+        pip install virtualenv
+        virtualenv "$USER_VENV"
+    fi
+
+    /scripts/install-reqs.py
 fi
 
 export SHELL=bash

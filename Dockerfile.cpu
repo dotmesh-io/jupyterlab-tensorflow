@@ -18,5 +18,6 @@ ADD package-lock.json /app/package-lock.json
 RUN /bin/bash /scripts/install-dotscience-changes.sh
 
 ## override the entrypoint to allow root
-COPY ./startup-scripts/start-jupyter.sh /scripts
+COPY ./startup-scripts/* /scripts/
+WORKDIR /root
 CMD ["/bin/bash", "/scripts/start-jupyter.sh"]
