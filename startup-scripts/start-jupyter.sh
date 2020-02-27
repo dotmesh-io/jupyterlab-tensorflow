@@ -4,9 +4,22 @@ set -xeuo pipefail
 # make sure we use the -w flag passed to docker run as where to load the notebooks
 # from - this will be the same place as the workspace dot is mounted
 export NOTEBOOK_DIR=${NOTEBOOK_DIR:="$PWD"}
+export USER_VENV="$NOTEBOOK_DIR/user-virtualenv"
+if [ -f "$NOTEBOOK_DIR/requirements.txt" ]; then
+    if [ ! -d "$USER_VENV" ]; then
+        pip install virtualenv
+        virtualenv "$USER_VENV"
+    fi
+
+    /scripts/install-reqs.py
+fi
+
 export SHELL=bash
 
-# If GATEWAY_URL_PREFIX is set, run with given URL prefix (see https://jupyter-notebook.readthedocs.io/en/stable/config.html for details):
+# If GATEWAY_URL_PREFIX is set, run with given URL prefix (see
+# https://jupyter-notebook.readthedocs.io/en/stable/config.html for details);
+# this enables reverse proxying to Jupyter from a path that is different than
+# the normal Jupyter path:
 if [ "${GATEWAY_URL_PREFIX:-}" != "" ]; then
     mkdir -p ~/.jupyter
     cat > ~/.jupyter/jupyter_notebook_config.py << EOF
