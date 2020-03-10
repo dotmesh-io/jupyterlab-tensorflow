@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """Redirect errors to log file, so we don't stop Jupyter from starting."""
 import os
+from os.path import join, exists
 import subprocess
 
 USER_VENV = os.environ["USER_VENV"]
 NOTEBOOK_DIR = os.environ["NOTEBOOK_DIR"]
-RESULTS_TXT = os.path.join(NOTEBOOK_DIR, "requirements-install-log.txt")
+RESULTS_TXT = join(NOTEBOOK_DIR, "requirements-install-log.txt")
 log = open(RESULTS_TXT, "w")
-PIP = os.path.join(USER_VENV, "bin", "pip")
-ERROR_LOG = os.path.join(NOTEBOOK_DIR, "ERRORS-FROM-REQUIREMENTS-INSTALL.txt")
+PIP = join(USER_VENV, "bin", "pip")
+ERROR_LOG = join(NOTEBOOK_DIR, "ERRORS-FROM-REQUIREMENTS-INSTALL.txt")
+REQS_TXT = join(NOTEBOOK_DIR, "requirements.txt")
+REQS_PINNED = join(NOTEBOOK_DIR, "requirements.pinned.txt")
 
-if os.path.exists(ERROR_LOG):
+if exists(ERROR_LOG):
     os.remove(ERROR_LOG)
 
 
@@ -25,13 +28,15 @@ def run(*args):
     print("SUCCEEDED")
 
 
+# (Re-)pin dependencies in requirements.txt if it's new:
+if not exists(REQS_PINNED) or (
+    os.stat(REQS_TXT).st_mtime > os.stat(REQS_PINNED).st_mtime
+):
+    run("pip-compile", "-o", REQS_PINNED, REQS_TXT)
+
 # Allow users to install packages, and in particular allow upgrades.
 run(
-    PIP,
-    "install",
-    "--upgrade",
-    "-r",
-    os.path.join(os.environ["NOTEBOOK_DIR"], "requirements.txt"),
+    PIP, "install", "--upgrade", "-r", REQS_PINNED,
 )
 
 # Install the IPython kernel and Dotscience, the absolute minimum needed:
@@ -39,7 +44,7 @@ run(PIP, "install", "ipykernel", "dotscience")
 
 # Make sure the IPython kernel is registered with Jupyter:
 run(
-    os.path.join(USER_VENV, "bin", "python"),
+    join(USER_VENV, "bin", "python"),
     "-m",
     "ipykernel",
     "install",
