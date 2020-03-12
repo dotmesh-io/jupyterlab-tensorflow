@@ -15,13 +15,12 @@ node -v
 # Hive and airflow bits
 apt-get update
 apt-get install -y libsasl2-dev
-pip install pyhive[hive] apache-airflow
+python3 -m pip install pyhive[hive] apache-airflow
 
 # Data science stuff
 apt-get install -y --no-install-recommends libsm6 libxrender-dev libxext6 unzip wget
-pip install -r requirements.txt
-# For some reason this is getting installed, it breaks things:
-pip uninstall -y enum34 || true
+python3 -m pip install -r requirements.txt
+
 jupyter serverextension enable --py jupyterlab_dotscience_backend --sys-prefix
 
 ## install and activate the browser extension
