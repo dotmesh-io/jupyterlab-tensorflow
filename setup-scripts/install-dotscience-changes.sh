@@ -15,6 +15,11 @@ node -v
 # Hive and airflow bits
 apt-get update
 apt-get install -y libsasl2-dev
+# Due to bug in jupyter-http-over-ws packaging, enum34 is being installed when
+# the wheel is used, which breaks other stuff
+# (https://github.com/googlecolab/jupyter_http_over_ws/issues/16). So, get rid
+# of enum34 if it's here (comes from the base image I think).
+python3 -m pip uninstall -y enum34 || true
 python3 -m pip install pyhive[hive] apache-airflow
 
 # Data science stuff

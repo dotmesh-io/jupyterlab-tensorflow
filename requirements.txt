@@ -1,6 +1,3 @@
-# Due to bug in jupyter-http-over-ws packaging, enum34 is being installed when
-# the wheel is used, which breaks other stuff (https://github.com/googlecolab/jupyter_http_over_ws/issues/16). So, specify the non-wheel version.
-https://files.pythonhosted.org/packages/67/9e/1ee8b30cf2af0d2de0fc659bcf4f81bffbcd1dff229736e2ca51f20d742e/jupyter_http_over_ws-0.0.6.tar.gz
 dotscience==0.8.7
 jupyterlab==1.2.6
 jupyterlab-dotscience-backend==0.2.28
