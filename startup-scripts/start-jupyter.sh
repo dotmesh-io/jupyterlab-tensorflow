@@ -7,7 +7,7 @@ export NOTEBOOK_DIR=${NOTEBOOK_DIR:="$PWD"}
 export USER_VENV="$NOTEBOOK_DIR/user-virtualenv"
 if [ -f "$NOTEBOOK_DIR/requirements.txt" ]; then
     if [ ! -d "$USER_VENV" ]; then
-        virtualenv "$USER_VENV"
+        python3 -m virtualenv "$USER_VENV"
     fi
 
     /scripts/install-reqs.py
