@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/dotmesh-io/jupyterlab-tensorflow#readme",
   "dependencies": {
-    "@dotscience/jupyterlab-plugin": "^0.2.26"
+    "@dotscience/jupyterlab-plugin": "^0.2.28"
   }
 }
