@@ -1,5 +1,5 @@
 dotscience==0.8.7
-jupyterlab==1.2.6
+jupyterlab==2.2.9
 jupyterlab-dotscience-backend==0.2.30
 opencv-python==4.2.0.32
 scikit-image==0.16.2
